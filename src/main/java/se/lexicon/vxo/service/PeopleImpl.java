@@ -23,7 +23,7 @@ public class PeopleImpl implements People {
 
     private List<Person> people;
 
-    private PeopleImpl(){
+    PeopleImpl(){
         people = JsonReader.getInstance().read();
     }
 
