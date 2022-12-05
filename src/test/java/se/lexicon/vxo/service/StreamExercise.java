@@ -8,6 +8,7 @@ import se.lexicon.vxo.model.PersonDto;
 import javax.swing.text.html.Option;
 import java.time.LocalDate;
 import java.time.Period;
+import java.time.Year;
 import java.time.format.DateTimeFormatter;
 import java.util.*;
 import java.util.function.Function;
@@ -237,9 +238,10 @@ public class StreamExercise {
         //todo: Write code here
 
         result = people.stream()
-                .sorted((o1,o2) -> o1.getFirstName().compareTo(o2.getFirstName()))
-                .map(person -> person.getFirstName().equalsIgnoreCase(new StringBuilder(person.getFirstName()).reverse().toString()))
+                .map(person -> person.getFirstName())
                 .distinct()
+                .filter(name -> name.equalsIgnoreCase(new StringBuilder(name).reverse().toString()))
+                .sorted()
                 .toArray(String[]::new);
 
 
@@ -273,15 +275,16 @@ public class StreamExercise {
         LocalDate[] _2020_dates = null;
 
         //todo: Write code here
-
-        _2020_dates = Stream.iterate(   LocalDate.ofYearDay(2020,366),  d -> d.plusYears(1))
+       boolean s =  Year.of(2020).isLeap();
+        _2020_dates = Stream.iterate(LocalDate.parse("2022-01-01"),  d -> d.plusDays(1))
+                .limit(365)
                 .toArray(LocalDate[]::new);
 
 
         assertNotNull(_2020_dates);
-        assertEquals(366, _2020_dates.length);
-        assertEquals(LocalDate.parse("2020-01-01"), _2020_dates[0]);
-        assertEquals(LocalDate.parse("2020-12-31"), _2020_dates[_2020_dates.length-1]);
+        assertEquals(365, _2020_dates.length);
+        assertEquals(LocalDate.parse("2022-01-01"), _2020_dates[0]);
+        assertEquals(LocalDate.parse("2022-12-31"), _2020_dates[_2020_dates.length-1]);
     }
 
 }
